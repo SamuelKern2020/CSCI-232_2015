@@ -31,6 +31,18 @@ class HuffmanTree
 		return current; // found it
 	} // end find()
 	// -------------------------------------------------------------
+	
+	//Inserts a tree pre-constructed tree into HuffmanTree:
+	public void insertTree(Node huffmanRoot){
+		if(root==null) // no node in root
+			root = huffmanRoot;	//root 
+		else{
+			System.out.println("It seems as though this tree has already been populated...");
+		}
+	}
+	
+	
+	
 	public void insert(int id, char dd)
 	{
 		Node newNode = new Node(id, dd); // make new node
@@ -222,6 +234,7 @@ class HuffmanTree
 				Node temp = (Node)globalStack.pop();
 				if(temp != null)
 				{
+					System.out.print(temp.character);
 					System.out.print(temp.frequency);
 					localStack.push(temp.leftChild);
 					localStack.push(temp.rightChild);

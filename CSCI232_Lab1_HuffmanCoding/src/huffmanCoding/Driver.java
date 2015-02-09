@@ -4,7 +4,6 @@ import java.util.Scanner;
 
 
 public class Driver {
-
 	
 	
 	public static void main(String[] args) {
@@ -38,6 +37,8 @@ public class Driver {
 		
 
 	}
+	
+	
 	
 	public static void enter(){
 		Scanner in = new Scanner(System.in);
@@ -88,7 +89,7 @@ public class Driver {
 		for (int x =0; x < length; x++){
 			if(characterFrequencyTable[x] != 0){
 				//create a new node
-				queue1.insert(characterFrequencyTable[x], existingCharacters[x]);
+				queue1.createAndInsert(characterFrequencyTable[x], existingCharacters[x]);
 			}
 		}
 		
@@ -111,14 +112,43 @@ public class Driver {
 		System.out.println("Character : Frequency");
 		
 		//Remove all nodes and print their values:
-		while(!queue1.isEmpty()){
-			Node nodeRemoved = queue1.remove();
-			System.out.println(nodeRemoved.character + " : " + nodeRemoved.frequency);
+//		while(!queue1.isEmpty()){
+//			Node nodeRemoved = queue1.remove();
+//			System.out.println(nodeRemoved.character + " : " + nodeRemoved.frequency);
+//		}
+		
+		//Build Huffman Tree
+		while (queue1.size()>1){
+			//Remove the first 2 nodes from priority queue:
+			Node child1 = queue1.remove();
+			Node child2 = queue1.remove();
+			//Create a new node, set frequency to be sum of child1 and child2, children set to be child1 and child2:
+			Node parentNode = new Node();
+			parentNode.frequency = child1.frequency + child2.frequency;
+			parentNode.character = '+';
+			parentNode.leftChild = child1;
+			parentNode.rightChild = child2;
+			//Insert back into the queue
+			queue1.insertNode(parentNode);
+		}
+		
+		//place Huffman Tree in HuffmanTree structure:
+		HuffmanTree tree1 = new HuffmanTree();
+		if(queue1.size() == 1){
+			tree1.insertTree(queue1.remove());	//The last node (which is the root of all other nodes) in the priority queue is placed as root in a newly created tree "tree1".
+		}
+		else{
+			System.out.println("Sorry, but there seems to be more than one node in priorityQ 'queue1'");
 		}
 		
 		
+		//This needs to go in the show() method:
+		tree1.displayTree();
+		
 	
 	}
+	
+	
 	
 
 	public static void show(){

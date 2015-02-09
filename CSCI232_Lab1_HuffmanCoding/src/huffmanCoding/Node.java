@@ -12,6 +12,10 @@ class Node
 		character = thisChar;
 	}
 	
+	public Node(){
+		
+	}
+	
 	public int getFrequency(){
 		return frequency;
 	}

@@ -21,8 +21,8 @@ class PriorityQ
 	
 	
 	
-	
-	public void insert(int frequency, char character) // insert item
+	//Creates a node with specified frequency and character, then inserts
+	public void createAndInsert(int frequency, char character) // insert item
 	{
 		Node newNode = new Node(frequency, character);
 		int j;
@@ -40,7 +40,28 @@ class PriorityQ
 			queArray[j+1] = newNode; // insert it
 			nItems++;
 		} // end else (nItems > 0)
-	} // end insert()
+	} // end createAndInsert()
+	
+	
+	//Same as above, but inserts a pre-constructed node
+	public void insertNode(Node newNode) // insert item
+	{
+		int j;
+		if(nItems==0) // if no items,
+			queArray[nItems++] = newNode; // insert at 0
+		else // if items,
+		{
+			for(j=nItems-1; j>=0; j--) // start at end,
+			{
+				if( newNode.getFrequency() > queArray[j].getFrequency() ) // if new item larger,
+					queArray[j+1] = queArray[j]; // shift upward
+				else // if smaller,
+					break; // done shifting
+			} // end for
+			queArray[j+1] = newNode; // insert it
+			nItems++;
+		} // end else (nItems > 0)
+	} // end insertNode()
 	//-------------------------------------------------------------
 	public Node remove() // remove minimum item
 	{ return queArray[--nItems]; }
@@ -53,6 +74,10 @@ class PriorityQ
 	//-------------------------------------------------------------
 	public boolean isFull() // true if queue is full
 	{ return (nItems == maxSize); }
+	
+	public int size(){	//Returns the number of nodes in the queue
+		return nItems;
+	}
 	//-------------------------------------------------------------
 } // end class PriorityQ
 ////////////////////////////////////////////////////////////////
