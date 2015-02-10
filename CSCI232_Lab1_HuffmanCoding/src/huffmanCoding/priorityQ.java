@@ -6,16 +6,18 @@ package huffmanCoding;
 ////////////////////////////////////////////////////////////////
 class PriorityQ
 {
+	public static int numberNodes;	//Keeps track of how many nodes are inserted into the priority queue (represents the max ever inserted)
 	// array in sorted order, from max at 0 to min at size-1
+	
 	private int maxSize;
 	private Node[] queArray;
-	private int nItems;
+	
 	//-------------------------------------------------------------
 	public PriorityQ(int s) // constructor
 	{
 		maxSize = s;
 		queArray = new Node[maxSize];
-		nItems = 0;
+		numberNodes = 0;
 	}
 	//-------------------------------------------------------------
 	
@@ -26,11 +28,11 @@ class PriorityQ
 	{
 		Node newNode = new Node(frequency, character);
 		int j;
-		if(nItems==0) // if no items,
-			queArray[nItems++] = newNode; // insert at 0
+		if(numberNodes==0) // if no items,
+			queArray[numberNodes++] = newNode; // insert at 0
 		else // if items,
 		{
-			for(j=nItems-1; j>=0; j--) // start at end,
+			for(j=numberNodes-1; j>=0; j--) // start at end,
 			{
 				if( newNode.getFrequency() > queArray[j].getFrequency() ) // if new item larger,
 					queArray[j+1] = queArray[j]; // shift upward
@@ -38,7 +40,7 @@ class PriorityQ
 					break; // done shifting
 			} // end for
 			queArray[j+1] = newNode; // insert it
-			nItems++;
+			numberNodes++;
 		} // end else (nItems > 0)
 	} // end createAndInsert()
 	
@@ -47,11 +49,11 @@ class PriorityQ
 	public void insertNode(Node newNode) // insert item
 	{
 		int j;
-		if(nItems==0) // if no items,
-			queArray[nItems++] = newNode; // insert at 0
+		if(numberNodes==0) // if no items,
+			queArray[numberNodes++] = newNode; // insert at 0
 		else // if items,
 		{
-			for(j=nItems-1; j>=0; j--) // start at end,
+			for(j=numberNodes-1; j>=0; j--) // start at end,
 			{
 				if( newNode.getFrequency() > queArray[j].getFrequency() ) // if new item larger,
 					queArray[j+1] = queArray[j]; // shift upward
@@ -59,24 +61,24 @@ class PriorityQ
 					break; // done shifting
 			} // end for
 			queArray[j+1] = newNode; // insert it
-			nItems++;
+			numberNodes++;
 		} // end else (nItems > 0)
 	} // end insertNode()
 	//-------------------------------------------------------------
 	public Node remove() // remove minimum item
-	{ return queArray[--nItems]; }
+	{ return queArray[--numberNodes]; }
 	//-------------------------------------------------------------
 	public Node peekMin() // peek at minimum item
-	{ return queArray[nItems-1]; }
+	{ return queArray[numberNodes-1]; }
 	//-------------------------------------------------------------
 	public boolean isEmpty() // true if queue is empty
-	{ return (nItems==0); }
+	{ return (numberNodes==0); }
 	//-------------------------------------------------------------
 	public boolean isFull() // true if queue is full
-	{ return (nItems == maxSize); }
+	{ return (numberNodes == maxSize); }
 	
 	public int size(){	//Returns the number of nodes in the queue
-		return nItems;
+		return numberNodes;
 	}
 	//-------------------------------------------------------------
 } // end class PriorityQ

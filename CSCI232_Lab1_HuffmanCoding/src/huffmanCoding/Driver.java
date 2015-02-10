@@ -4,6 +4,8 @@ import java.util.Scanner;
 
 
 public class Driver {
+
+	static int length;
 	
 	
 	public static void main(String[] args) {
@@ -49,10 +51,10 @@ public class Driver {
 		
 		//Creates an array containing all available characters
 		String knownCharacters = "abcdefghijklmnopqrstuvwxyz ";
-		int length = knownCharacters.length();
+		length = knownCharacters.length();
 		
 		//Instantiates an instance of PriorityQ 
-		PriorityQ queue1 = new PriorityQ (length);
+		PriorityQ queue1 = new PriorityQ (length * 2);	//the priorityQ must have enough space for 2 X the number of letters for extreme case.
 		
 		
 		//Where should I instantiate each Node?
@@ -145,6 +147,11 @@ public class Driver {
 		//This needs to go in the show() method:
 		tree1.displayTree();
 		
+		//This needs to go in the code() method:
+		
+		tree1.generateBinaryCode(tree1.getRoot());	//Recursive traversal method that maps in binary codes to characterToCodeTable
+		
+		
 	
 	}
 	
@@ -154,12 +161,7 @@ public class Driver {
 	public static void show(){
 		
 	}
-	
-	
-	
-	
-	
-	
+
 	public static void code(){
 		
 	}

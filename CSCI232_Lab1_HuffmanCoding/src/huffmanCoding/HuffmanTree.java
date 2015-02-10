@@ -15,22 +15,30 @@ class HuffmanTree
 	// -------------------------------------------------------------
 	public HuffmanTree() // constructor
 	{ root = null; } // no nodes in tree yet
+	
+	
+	
+	
 	//-------------------------------------------------------------
-	public Node find(int key) // find node with given key
-	{ // (assumes non-empty tree)
-		Node current = root; // start at root
-		while(current.frequency != key) // while no match,
-		{
-			if(key < current.frequency) // go left?
-				current = current.leftChild;
-			else // or go right?
-				current = current.rightChild;
-			if(current == null) // if no child,
-				return null; // didn't find it
-		}
-		return current; // found it
-	} // end find()
-	// -------------------------------------------------------------
+//	public Node find(int key) // find node with given key
+//	{ // (assumes non-empty tree)
+//		Node current = root; // start at root
+//		while(current.frequency != key) // while no match,
+//		{
+//			if(key < current.frequency) // go left?
+//				current = current.leftChild;
+//			else // or go right?
+//				current = current.rightChild;
+//			if(current == null) // if no child,
+//				return null; // didn't find it
+//		}
+//		return current; // found it
+//	} // end find()
+//	// -------------------------------------------------------------
+	
+	
+	
+	
 	
 	//Inserts a tree pre-constructed tree into HuffmanTree:
 	public void insertTree(Node huffmanRoot){
@@ -215,6 +223,64 @@ class HuffmanTree
 		}
 	}
 	// -------------------------------------------------------------
+	
+	
+	public String inOrderValues = "";
+	public String getInOrderValues(){
+		return inOrderValues;
+	}
+	public int count2 = 0;
+	
+	int[] binaryCode = new int[100];
+	
+	public  void generateBinaryCode(Node currentNode){
+		if(currentNode == null){
+			return;
+		}
+		
+		if (currentNode.leftChild != null){
+			//Add a 0 to binaryCode
+			BinaryCodeArray.addBinaryDigit("0");		
+			}
+		
+		generateBinaryCode(currentNode.leftChild);
+		
+		if(currentNode.character != '+'){
+			//Assign the current value of binaryCode to the cooresponding letter
+			String currentCode = BinaryCodeArray.getBinaryCode();
+			//Need to add code to characterToCodeTable[] found in BinaryCodeArray class
+			//For now just printing:
+			System.out.println("Letter " + currentNode.character + currentCode);
+		}
+		
+		
+		
+		
+		if (currentNode.rightChild != null){
+			//Add a 1 to binaryCode
+			BinaryCodeArray.addBinaryDigit("1");	
+			}
+		generateBinaryCode(currentNode.rightChild);
+		
+		//if character in currentNode hasn't been assigned a binary code, assign code now.???
+		
+		//subtract a # from binaryCode[]
+		BinaryCodeArray.removeBinaryDigit();
+	}
+	
+
+	public Node getRoot(){
+		return root;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	public void displayTree()
 	{
 		Stack globalStack = new Stack();
