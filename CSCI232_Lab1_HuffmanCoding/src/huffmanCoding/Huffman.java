@@ -3,7 +3,8 @@ package huffmanCoding;
 public class Huffman {
 	private PriorityQ queue1;
 	private String inputString;        // input from user
-	private String knownCharacters = "abcdefghijklmnopqrstuvwxyz ";
+	//private String knownCharacters = "abcdefghijklmnopqrstuvwxyz";
+	private String knownCharacters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ_";
 	int length = knownCharacters.length();
 	char[] existingCharacters;
 	int[] characterFrequencyTable; //Array that stores frequencies. Indices correspond exactly to existingCharacters[]
@@ -14,12 +15,12 @@ public class Huffman {
 	private BinaryCodeArray encodingArray;
 	
 	private String codedMessage;        // binary string
-	
+	private String decodedMessage;      // back to original msg
 	
 	
 	private int strlen;
 	private String capsString;      // converted to all caps
-	private String decodedMsg;      // back to original msg
+	
 	
 	
 	public Huffman(String s){
@@ -59,6 +60,11 @@ public class Huffman {
 			int index = 0;
 			boolean found = false;
 			while (index < length && !found){
+				//Changes spaces to '_'
+				if(currentCharacter == ' '){
+					currentCharacter = '_';
+				}
+				//Finds matches
 				if(currentCharacter == existingCharacters[index]){
 					characterFrequencyTable[index] = characterFrequencyTable[index]+1;
 					found = true;
@@ -82,10 +88,7 @@ public class Huffman {
 			System.out.print(characterFrequencyTable[x] + " ");
 		}
 		System.out.println();
-		System.out.println();
-		
-		System.out.println("Character : Frequency");
-		
+		System.out.println();	
 	}
 	
 	
@@ -99,6 +102,7 @@ public class Huffman {
 		}
 	}
 	
+	//For testing purposes
 	private void printNodes(){//removes each node from tree and prints it's value
 		//Remove all nodes and print their values:
 				while(!queue1.isEmpty()){
@@ -133,27 +137,13 @@ public class Huffman {
 			System.out.println("Sorry, but there seems to be more than one node in priorityQ 'queue1'");
 		}
 	}
-	
-	
-//	//This needs to go in the show() method:
-//	tree1.displayTree();
-//	
-//	//This needs to go in the code() method:
-//	
-//	tree1.generateBinaryCode(tree1.getRoot());	//Recursive traversal method that maps in binary codes to characterToCodeTable
-//	
-	
-	
-	
+
 	
 	public void displayTree(){
 		if (tree1 != null){
 			tree1.displayTree();
 		}
 	}
-	
-	
-	
 	
 
 	public void encode(){
@@ -163,7 +153,6 @@ public class Huffman {
 		printCodedMessage();
 	}
 	
-						//Consider using a string instead of an array for this:
 	
 	private void generateCodeTable(Node currentNode){
 			if(currentNode == null){
@@ -172,25 +161,23 @@ public class Huffman {
 			if (currentNode.leftChild != null){
 				//Add a 0 to binaryCode
 				encodingArray.addBinaryDigit("0");	
-				System.out.println(encodingArray.getBinaryCode());
+				//System.out.println(encodingArray.getBinaryCode());
 				}
 			generateCodeTable(currentNode.leftChild);
 			if(currentNode.character != '+'){
 				//Assign the current value of binaryCode to the corresponding letter
 				String currentCode = encodingArray.getBinaryCode();
+				//System.out.println("Letter " + currentNode.character +": "+ currentCode);
 				//Need to add code to characterToCodeTable[] found in BinaryCodeArray class
-				//For now just printing:
-				System.out.println("Letter " + currentNode.character +": "+ currentCode);
 				addCodeToTable(currentNode.character, currentCode);
 			}
 			
 			if (currentNode.rightChild != null){
 				//Add a 1 to binaryCode
 				encodingArray.addBinaryDigit("1");	
-				System.out.println(encodingArray.getBinaryCode());
+				//System.out.println(encodingArray.getBinaryCode());
 				}
 			generateCodeTable(currentNode.rightChild);
-			//if character in currentNode hasn't been assigned a binary code, assign code now.???
 			if(!encodingArray.isEmpty()){
 				//subtract a # from binaryCode[]
 				encodingArray.removeBinaryDigit();
@@ -232,8 +219,41 @@ public class Huffman {
 	
 	
 	
-	public void decode(){
-		
-	}
+	public void decode()
+	{
+		decodedMessage = "";
+		int cmLength = codedMessage.length();
+		int j = 0;
+		while(j < cmLength)
+		{
+			Node theNode = tree1.getRoot();  // start at root
+			while(theNode.character == '+')       // until leaf,
+			{
+				if(codedMessage.charAt(j++) == '0'){// if '0'
+					// go left
+					theNode = theNode.leftChild;
+				}
+					
+				else {// if '1'
+					// go right
+					theNode = theNode.rightChild;
+				}
+					
+			}
+			System.out.println(theNode.character);
+			//reached a leaf node:
+			
+			//If '_', convert to a space
+			if(theNode.character == '_'){
+				theNode.character = ' ';
+			}
+			//Adds the character to the decoded message
+			decodedMessage = decodedMessage + theNode.character; // letter at leaf node
+			System.out.println(decodedMessage);
+		}                                    
+		System.out.println("Decoded Message: " + decodedMessage);
+		System.out.println();
+	}  // end decode()
+
 
 }
